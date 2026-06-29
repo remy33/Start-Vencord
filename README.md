@@ -2,6 +2,12 @@
 
 A small Windows PowerShell helper for repairing Vencord on Discord Stable and launching Discord afterwards.
 
+## Problem & Solution
+
+Discord updates itself every few weeks. When that happens, the update can replace the patched Discord files that Vencord depends on, so Vencord disappears and you usually have to run the installer manually again.
+
+This script makes that routine automatic. Run `Start-Vencord.ps1`, or use the Desktop shortcut, and it will check the latest Discord Stable install, repair Vencord if the patch is missing, then start Discord for you.
+
 The project also includes a shortcut creator that places a `Start Vencord` shortcut on your Windows Desktop. The shortcut uses the Discord icon when Discord Stable is installed in the default location.
 
 ## Files
