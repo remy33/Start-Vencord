@@ -13,7 +13,7 @@ The project also includes a shortcut creator that places a `Start Vencord` short
 ## Files
 
 - `Start-Vencord.ps1` - downloads or reuses the Vencord CLI installer, repairs Vencord for Discord Stable, then launches Discord.
-- `New-StartVencordShortcut.ps1` - creates or updates a Desktop shortcut that runs `Start-Vencord.ps1`.
+- `New-StartVencordShortcut.ps1` - creates or updates shortcuts that run `Start-Vencord.ps1`. By default it only creates a Desktop shortcut.
 
 ## Requirements
 
@@ -44,6 +44,26 @@ Create the Desktop shortcut:
 You can also right-click `New-StartVencordShortcut.ps1` and select **Run with PowerShell** to create the Desktop shortcut.
 
 After the shortcut is created, you can run `Start Vencord` directly from your Desktop.
+
+## Start With Windows
+
+Startup is optional. By default, `New-StartVencordShortcut.ps1` only creates the Desktop shortcut.
+
+If you want Windows to run the Vencord check when you sign in, create a Startup shortcut:
+
+```powershell
+.\New-StartVencordShortcut.ps1 -Location Startup
+```
+
+To create both the Desktop shortcut and Startup shortcut:
+
+```powershell
+.\New-StartVencordShortcut.ps1 -Location Both
+```
+
+The Startup shortcut points back to this repository's `Start-Vencord.ps1` file. Do not copy `Start-Vencord.ps1` into the Windows Startup folder, because copied scripts can become outdated.
+
+If you use the Startup shortcut, turn off Discord's own startup launch setting. Discord can also be configured to open when Windows starts, and if both are enabled Discord may start before this script gets a chance to check or repair Vencord.
 
 ## What The Script Does
 
