@@ -79,13 +79,7 @@ If you use the Startup shortcut, turn off Discord's own startup launch setting. 
 
 ## Shortcut Icon
 
-`New-StartVencordShortcut.ps1` looks for the newest installed Discord Stable executable at:
-
-```text
-%LOCALAPPDATA%\Discord\app-*\Discord.exe
-```
-
-If it finds Discord, the Desktop shortcut uses the Discord icon. If it cannot find Discord, it falls back to the PowerShell icon.
+The shortcut uses the Discord icon when Discord Stable is installed, and the PowerShell icon otherwise. If the shortcut ever loses its icon, re-run `New-StartVencordShortcut.ps1`.
 
 ## Execution Policy
 

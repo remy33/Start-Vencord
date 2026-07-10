@@ -38,29 +38,11 @@ if (-not (Test-Path -LiteralPath $powershellPath -PathType Leaf)) {
     $powershellPath = $powershellCommand.Source
 }
 
-function Get-LatestDiscordExe {
-    param([string]$BasePath)
-
-    if (-not (Test-Path -LiteralPath $BasePath -PathType Container)) {
-        return $null
-    }
-
-    $appDirs = @(Get-ChildItem -LiteralPath $BasePath -Directory -Filter "app-*" -ErrorAction SilentlyContinue |
-        Where-Object { $_.Name -match '^app-\d+(\.\d+)+$' } |
-        Sort-Object { [version]($_.Name -replace '^app-', '') } -Descending)
-
-    foreach ($appDir in $appDirs) {
-        $discordExe = Join-Path $appDir.FullName "Discord.exe"
-        if (Test-Path -LiteralPath $discordExe -PathType Leaf) {
-            return $discordExe
-        }
-    }
-
-    return $null
-}
-
-$iconPath = Get-LatestDiscordExe -BasePath $discordBase
-if (-not $iconPath) {
+# Only app.ico in the Discord root survives updates: the versioned app-*
+# folders are deleted on every Discord update, which would leave shortcuts
+# with a blank icon.
+$iconPath = Join-Path $discordBase "app.ico"
+if (-not (Test-Path -LiteralPath $iconPath -PathType Leaf)) {
     $iconPath = $powershellPath
 }
 
