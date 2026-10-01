@@ -122,7 +122,10 @@ function Get-LatestDiscordAppDir {
 
     foreach ($dir in $ordered) {
         $resourcesDir = Join-Path $dir.FullName "resources"
-        if (Test-Path $resourcesDir) {
+
+        # Discord stages updates into a new app folder before its asar exists.
+        # A folder without any asar cannot be launched or patched yet, so skip it.
+        if ((Test-Path (Join-Path $resourcesDir "app.asar")) -or (Test-Path (Join-Path $resourcesDir "_app.asar"))) {
             return $dir
         }
     }
@@ -242,6 +245,11 @@ $needsRepair = $true
 $latestDiscordAppDir = Get-LatestDiscordAppDir -BasePath $discordBase
 
 if ($latestDiscordAppDir) {
+    $newestDiscordAppDir = Get-DiscordAppDirs -BasePath $discordBase | Select-Object -Last 1
+    if ($newestDiscordAppDir.Name -ne $latestDiscordAppDir.Name) {
+        Write-Warning "Discord update folder ($($newestDiscordAppDir.Name)) is not finished yet. Using $($latestDiscordAppDir.Name); Discord will finish the update after it starts."
+    }
+
     $resourcesDir = Join-Path $latestDiscordAppDir.FullName "resources"
     if (Test-VencordPatchPresent -ResourcesDir $resourcesDir) {
         $discordInstallLocation = $discordBase
